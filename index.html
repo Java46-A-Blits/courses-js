@@ -4,14 +4,33 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="dist/bundle.js"> </script>
     <title>Document</title>
 </head>
 <body>
-    <h1> Hello</h1>
+    
+
     <ul id="courses" >
 
     </ul>
-    <script src="dist/bundle.js"></script> </script>
+    <div id="alert">
+        
+    </div>
+    <form id="courses-form">
+        <input type="text" name="name" placeholder="course name" required>
+        <input type="text" name="lecturer" placeholder="lecturer" required>
+        <input type="number" name="hours" placeholder="hours" required>
+        <input type="cost" name="cost" placeholder="cost" required>
+        <input type="date" name="openingDate" placeholder="openingDate" required>
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
 
+
+
+
+
+    </form>
+
+    <script src="dist/bundle.js"> </script>
 </body>
 </html>
