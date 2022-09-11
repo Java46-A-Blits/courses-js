@@ -13,7 +13,7 @@ export function getRandomElement(array){
 export function getRandomDate (minYear, maxYear){
     // TODO  - returns random date object ( see constructor of the standard cass Date)
     const year = getRandomNumber(minYear, maxYear);
-    const month = getRandomNumber(0,11); //  monthsin Date are from 0 to 11 (not a mistake )
+    const month = getRandomNumber(0,11); //  months in Date are from 0 to 11 (not a mistake )
     const day = getRandomNumber (1,31);
     const date  = new Date(year, month, day);
     return date

@@ -30,7 +30,7 @@ export default class Courses{
     }
     exsists(id){
         // TODO check if a course with a given ID exists
-        return false;
+        return !!this.#courses.find(c => c.id === id); // !! -> exists, ( returns true if expression has a value )
     }
 
 }
