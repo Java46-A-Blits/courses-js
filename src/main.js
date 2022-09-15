@@ -2,6 +2,7 @@ import courseData from './config/courseData.json'
 import College from './services/college';
 import Courses from './services/courses';
 import FormHandler from './ui/form_handler';
+import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 const N_COURSES = 5;
 function createCourses() {
@@ -11,30 +12,40 @@ function createCourses() {
     }
     return courses
 }
-function getCourseItems(courses) {
-    return courses.map(c => `<li>${JSON.stringify(c)}</li>`).join('');
-}
-// TODO rendering inside <ul>
-
-const ulElem = document.getElementById("courses");
 const courses = createCourses();
-ulElem.innerHTML = `${getCourseItems(courses)}`;
+
 const dataProvider = new Courses(courseData.minId, courseData.maxId, courses);
 const dataProcessor = new College(dataProvider, courseData);
+const tableHandler = new TableHandler([
+    {key: 'id', displayName: 'ID'},
+    {key: 'name', displayName: 'Course Name'},
+    {key: 'lecturer', displayName: 'Lecturer Name'},
+    {key: 'cost', displayName: "Cost (ILS)"},
+    {key: 'hours', displayName: "Course Duration(hrs)"}
+],"courses-table");
+
 const formHandler = new FormHandler("courses-form", "alert");
 formHandler.addHandler(course => {
     const res = dataProcessor.addCourse(course); // course -> 'data'  ==> created object from  a new entry in form_handler.js
     // dataProcessor is a College object which has method 'add Course' in it,  and it's getting dataProvider which is 
     // a 'Courses' object which has a method '.add' in it (which is adding a new course + random id of it)
     if (typeof(res) !== 'string') {
-        // course.id = 100000;
-        ulElem.innerHTML += `<li>${JSON.stringify(course)}</li>`;
-        // adding a new course to the html list <ul id="courses"></ul> 
+   
         return '';
     }
     return res;
 })
-
+formHandler.fillOptions("course-name-options", courseData.courses);
+formHandler.fillOptions("lecturer-options", courseData.lectors);
+// tableHandler.showTable(courses);   // ->  removed as we want to see the table only when we press 'show courses'
+window.showForm = ()=> {
+    formHandler.show();
+    tableHandler.hideTable();
+}
+window.showCourses = ()=> {
+    tableHandler.showTable(dataProcessor.getAllCourses());
+    formHandler.hide();
+}
 
 
 

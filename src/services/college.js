@@ -24,7 +24,7 @@ export default class College {
     #getValidationMessage(course) {
         // TODO validate course
         const {minCost, maxCost, minHours, maxHours, minYear, maxYear, lectors, courses}  = this.#courseData; // destructuring
-        const {cost, hours, openingDate, lecturer, name} = course;          // destructuring
+        const {cost, hours, openingDate, lecturer, name} = course;                                            // destructuring
 
         let message = '';
         message += cost < minCost || cost > maxCost ?
@@ -39,6 +39,8 @@ export default class College {
         message += !courses.includes(name) ? 
          `wrong entry, course name has to  be one of: ${courses}`:'';
         return message;
-
+    }
+    getAllCourses(){
+        return this.#courses.get();
     }
 }

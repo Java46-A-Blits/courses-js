@@ -1,5 +1,4 @@
 
-
 export default class FormHandler {  //handler - takes all values from the user entries, 
     //forms  an object and calls a method of a controller, getting a message, 
     // if a message empty - OK if not then alert. The processor will  take a logic. 
@@ -25,6 +24,7 @@ export default class FormHandler {  //handler - takes all values from the user e
             const message = fnProcessor(data);
             if (!message) {      // !'' == true               
                 this.#formElement.reset(); // everything OK
+                this.#alertElement.innerHTML = '';
             } else {     // !'string' == false
                 // TODO show alert inside this.#alertElement
                 const alert =
@@ -36,4 +36,17 @@ export default class FormHandler {  //handler - takes all values from the user e
             }
         })
     }
+    fillOptions(idOptions, options){
+        document.getElementById(idOptions).innerHTML = `${getOptions(options)}`
+
+    }
+    show(){
+        this.#formElement.hidden = false;        
+    }
+    hide(){
+        this.#formElement.hidden = true;
+    }
+}
+function getOptions(opts){
+    return opts.map(o=> `<option value="${o}"> ${o} </option>`).join('');
 }
