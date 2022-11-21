@@ -18,8 +18,9 @@ export default class College {
         const validationMessage = this.#getValidationMessage(course);
         if (!validationMessage) {         // !'' -> true 
             return this.#courses.add(course);    // courses is an object referencing to  data provisioning (and has "add" method)
+                                                  // returns a 'course' object  
         }
-        return validationMessage;
+        return validationMessage;                 // returns an error message as string (!String)== false
     }
     #getValidationMessage(course) {
         // TODO validate course

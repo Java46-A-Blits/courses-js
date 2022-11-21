@@ -13,11 +13,11 @@ export default class FormHandler {  //handler - takes all values from the user e
         // parents of which 'idForm' and have atribute name
         // and creating an itereable object
     }
-    addHandler(fnProcessor) {
-        this.#formElement.addEventListener('submit', event => {
+    addHandler(fnProcessor)  {
+        this.#formElement.addEventListener('subm it', event => {
             event.preventDefault();
             const data = Array.from(this.#inputElements)  // creating an aray of iterables. 
-                .reduce((obj, element) => {
+                .reduce((obj, element) => {  
                     obj[element.name] = element.value;     // value is a user entry  (job of qerySelectorAll ??)
                     return obj;
                 }, {})
@@ -25,11 +25,11 @@ export default class FormHandler {  //handler - takes all values from the user e
             if (!message) {      // !'' == true               
                 this.#formElement.reset(); // everything OK
                 this.#alertElement.innerHTML = '';
-            } else {     // !'string' == false
-                // TODO show alert inside this.#alertElement
-                const alert =
+            } else {     // !string == false (else 'message' is a string returnned from cb) 
+                // TODO show alert inside this.#alertElement 
+                const alert =                      // - 'message' is a string
                     `<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                       <strong> Error! </strong> ${message}.
+                       <strong> Error! </strong> ${message}.   
                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     <div>`;
                 this.#alertElement.innerHTML = alert;
@@ -40,6 +40,7 @@ export default class FormHandler {  //handler - takes all values from the user e
         document.getElementById(idOptions).innerHTML = `${getOptions(options)}`
 
     }
+    
     show(){
         this.#formElement.hidden = false;        
     }

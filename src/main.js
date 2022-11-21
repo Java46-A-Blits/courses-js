@@ -27,13 +27,13 @@ const tableHandler = new TableHandler([
 const formHandler = new FormHandler("courses-form", "alert");
 formHandler.addHandler(course => {
     const res = dataProcessor.addCourse(course); // course -> 'data'  ==> created object from  a new entry in form_handler.js
-    // dataProcessor is a College object which has method 'add Course' in it,  and it's getting dataProvider which is 
+    // dataProcessor is a College object which has method 'addCourse' in it,  and it's getting dataProvider which is 
     // a 'Courses' object which has a method '.add' in it (which is adding a new course + random id of it)
-    if (typeof(res) !== 'string') {
+    if (typeof(res) !== 'string') { /// in the case the object 'course' returned (i.e - no  error and addhand  ler added course )
    
         return '';
     }
-    return res;
+    return res; // otherwise will return a string message 
 })
 formHandler.fillOptions("course-name-options", courseData.courses);
 formHandler.fillOptions("lecturer-options", courseData.lectors);
@@ -43,10 +43,7 @@ window.showForm = ()=> {
     tableHandler.hideTable();
 }
 window.showCourses = ()=> {
-    tableHandler.showTable(dataProcessor.getAllCourses());
+    tableHandler.showTable(dataProcessor.getAllCourses()); /// getAllCourses() instead of dataProcessor.getAllCourses() still works???
+                                                           //  TS 02:29
     formHandler.hide();
 }
-
-
-
-

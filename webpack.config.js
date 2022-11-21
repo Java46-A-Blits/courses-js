@@ -16,7 +16,7 @@ module.exports = {
       exclude: [
         path.resolve(__dirname, 'node_modules')
       ],
-
+f
 
     }, {
       test: /\.css$/,
