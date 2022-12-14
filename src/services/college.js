@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 // Data processor
 export default class College {
     #courseData
@@ -13,7 +15,7 @@ export default class College {
         // if course invalid then  the method returns full message descriibing what's wrong.
         // converting from string to proper types,  cuz when we enter it in a form they are just strings but not numbers. 
         course.hours = +course.hours;
-        course.cost = +course.cost;
+        course.cost = +course.cost; 
         course.openingDate = new Date(course.openingDate);
         const validationMessage = this.#getValidationMessage(course);
         if (!validationMessage) {         // !'' -> true 
@@ -43,5 +45,29 @@ export default class College {
     }
     getAllCourses(){
         return this.#courses.get();
+    }
+    sortCourses(key){
+        return _.sortBy(this.getAllCourses(), key)
+    }
+    #getStatistics(interval, field){
+        const courses  = this.getAllCourses();
+        const objStat = _.countBy(courses, e=> {return Math.floor(e[field]/interval)});
+        return Object.keys(objStat).map(s=> {   // creating an array of keys (we use an Object which has keys method)
+            return {minInterval: s * interval, // s is a key (string) multiplied with interval giving a number. 
+                    maxInterval: s * interval + interval-1,
+                    amount: objStat[s]}
+        })
+    }
+    getHoursStatistics(lengthInterval){
+        return this.#getStatistics(lengthInterval, 'hours')
+    }
+    getCostStatistics(lengthInterval){
+        return this.#getStatistics(lengthInterval, 'cost');
+    }
+    removeCourse(id) {
+        if(!this.#courses.exists(id)){
+            throw `course with id ${id} not found`
+        }
+        return this.#courses.remove(id);
     }
 }

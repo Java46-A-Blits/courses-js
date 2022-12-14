@@ -11,5 +11,5 @@ export function getRandomCourse(courseData){ /// webpack technology convert JSON
     const hours = Math.round(getRandomNumber(minHours, maxHours)/10)*10;//to get the round amount (ex: 80 hrs instead 83)
     const cost = Math.round(getRandomNumber(minCost, maxCost)/100)*100; // the same as above
     const openingDate = getRandomDate(minYear, maxYear);
-    return create Course(id,  name, lecturer, hours, cost, openingDate)    
+    return createCourse(id,  name, lecturer, hours, cost, openingDate)    
 }

@@ -1,5 +1,5 @@
 
-// fake data provisionong module istead of BE server
+// fake data provisioning module istead of BE server
 
 import { getRandomNumber } from "../utils/random";
 
@@ -18,22 +18,26 @@ export default class Courses{
         course.id = this.#getId();
         this.#courses.push(course);
         return course;
- 
     }
     #getId(){
         // return  unique value of id
         let id;
         do{
              id = getRandomNumber(this.#minId, this.#maxId);
-        } while (this.exsists(id));
+        } while (this.exists(id));
         return id;
     }
-    exsists(id){
-        // TODO check if a course with a given ID exists
+    exists(id){
         return !!this.#courses.find(c => c.id === id); // !! -> exists, ( returns true if expression has a value )
     }
     get(){
         return this.#courses;
+    }
+    remove(id) {
+        const index = this.#courses.findIndex(c => c.id === id);
+        const res = this.#courses[index];
+        this.#courses.splice(index, 1);
+        return res;
     }
 
 }

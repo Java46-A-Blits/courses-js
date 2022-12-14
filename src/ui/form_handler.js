@@ -9,12 +9,12 @@ export default class FormHandler {  //handler - takes all values from the user e
     constructor(idForm, idAlert) {
         this.#formElement = document.getElementById(idForm);
         this.#alertElement = document.getElementById(idAlert);
-        this.#inputElements = document.querySelectorAll(`#${idForm} [name]`); // giving all elem.
+        this.#inputElements = document.querySelectorAll(`#${idForm} [name]`); // giving all elem. 
         // parents of which 'idForm' and have atribute name
         // and creating an itereable object
     }
     addHandler(fnProcessor)  {
-        this.#formElement.addEventListener('subm it', event => {
+        this.#formElement.addEventListener('submit', event => {
             event.preventDefault();
             const data = Array.from(this.#inputElements)  // creating an aray of iterables. 
                 .reduce((obj, element) => {  
@@ -37,10 +37,9 @@ export default class FormHandler {  //handler - takes all values from the user e
         })
     }
     fillOptions(idOptions, options){
-        document.getElementById(idOptions).innerHTML = `${getOptions(options)}`
+        document.getElementById(idOptions).innerHTML += `${getOptions(options)}` // to  add  -- Select lecturer/course  name --
 
     }
-    
     show(){
         this.#formElement.hidden = false;        
     }
