@@ -5,22 +5,13 @@ import FormHandler from './ui/form_handler';
 import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash' 
-const N_COURSES = 5;
+import NavigatorButtons from './ui/navigator_buttons';
 const statisticsColumnDefinition = [
     {key: 'minInterval', displayName: 'From'},
     {key: 'maxInterval', displayName: 'To'},
     {key: 'amount', displayName: 'Amount'}
 ]
-function createCourses() {
-    const courses = [];
-    for (let i = 0; i < N_COURSES; i++) {
-        courses.push(getRandomCourse(courseData));
-    }
-    return courses
-}
-const courses = createCourses();
-
-const dataProvider = new Courses(courseData.minId, courseData.maxId, courses);
+const dataProvider = new Courses(courseData.minId, courseData.maxId);
 const dataProcessor = new College(dataProvider, courseData);
 const tableHandler = new TableHandler([
     {key: 'id', displayName: 'ID'},
@@ -28,10 +19,13 @@ const tableHandler = new TableHandler([
     {key: 'lecturer', displayName: 'Lecturer Name'},
     {key: 'cost', displayName: "Cost (ILS)"},
     {key: 'hours', displayName: "Course Duration(hrs)"}
-],"courses-table","sortCourses", "removeCourse");
+],"courses-table","sortCourses", "removeCourse"); 
 const tableHoursStatistics = new TableHandler(statisticsColumnDefinition, 'courses-table');
 const tableCostStatistics = new TableHandler(statisticsColumnDefinition, 'courses-table');
 const formHandler = new FormHandler("courses-form", "alert");
+const generationHandler = new FormHandler("generation-form", "alert");
+const navigator = new NavigatorButtons(["0","1","2","3","4"]);
+
 formHandler.addHandler(course => {
     const res = dataProcessor.addCourse(course); // course -> 'data'  ==> created object from  a new entry in form_handler.js
     // dataProcessor is a College object which has method 'addCourse' in it,  and it's getting dataProvider which is 
@@ -41,31 +35,43 @@ formHandler.addHandler(course => {
         return '';
     }
     return res; // otherwise will return a string message 
+});
+generationHandler.addHandler(generation=> {
+    for(let i=0; i<generation.nCourses; i++){
+        dataProcessor.addCourse(getRandomCourse(courseData));
+    }
+    return '';
 })
+
 formHandler.fillOptions("course-name-options", courseData.courses);
 formHandler.fillOptions("lecturer-options", courseData.lectors);
 function hide(){
     tableHandler.hideTable();
     formHandler.hide();
+    generationHandler.hide();
     tableHoursStatistics.hideTable();
     tableCostStatistics.hideTable();
 }
 window.showForm = ()=> {
     hide();
+    navigator.setActive(0);
     formHandler.show();
 }
 window.showCourses = ()=> {
     hide();
+    navigator.setActive(1);
     tableHandler.showTable(dataProcessor.getAllCourses()); // getAllCourses() instead of dataProcessor.getAllCourses() 
                                                            //still works??? _.sortBy will  sort courses by 'name' 
                                                            //in groups and by 'id' inside the groups
  } 
 window.showHoursStatistics = ()=> {
     hide();
+    navigator.setActive(2)
     tableHoursStatistics.showTable(dataProcessor.getHoursStatistics(courseData.hoursInterval));
 }
 window.showCostStatistics = ()=> {
     hide();
+    navigator.setActive(3);
     tableCostStatistics.showTable(dataProcessor.getCostStatistics(courseData.costInterval));
 }
 window.sortCourses = (key)=> {
@@ -76,5 +82,10 @@ window.removeCourse = (id)=> {
         dataProcessor.removeCourse(+id);
         tableHandler.showTable(dataProcessor.getAllCourses());
     }
+}
+window.showGeneration = ()=>{
+    hide();
+    navigator.setActive(4);
+    generationHandler.show();
 }
  
