@@ -2,8 +2,14 @@
 // fake data provisioning module istead of BE server
 
 import { getRandomNumber } from "../utils/random";
-
 // data is a regular JS array
+
+function getPromise(timeout, value) {
+    return new Promise((resolve, reject)=> {
+        setTimeout(()=> resolve(value), timeout);
+    })
+}
+
 export default class Courses{
     #courses
     #minId
@@ -17,7 +23,7 @@ export default class Courses{
     add(course){
         course.id = this.#getId();
         this.#courses.push(course);
-        return course;
+        return getPromise(1000, course);
     }
     #getId(){
         // return  unique value of id
@@ -31,13 +37,13 @@ export default class Courses{
         return !!this.#courses.find(c => c.id === id); // !! -> exists, ( returns true if expression has a value )
     }
     get(){
-        return this.#courses;
+        return getPromise(2000,this.#courses);
     }
     remove(id) {
         const index = this.#courses.findIndex(c => c.id === id);
         const res = this.#courses[index];
         this.#courses.splice(index, 1);
-        return res;
+        return getPromise(1000, res);
     }
 
 }

@@ -8,7 +8,7 @@ export default class College {
         this.#courses = courses;
         this.#courseData = courseData;
     }
-    addCourse(course) {
+    async addCourse(course) {
         // TODO validation of the course data
         // if course is valid then course will be added :
         // this.#courses.add(course)
@@ -19,10 +19,10 @@ export default class College {
         course.openingDate = new Date(course.openingDate);
         const validationMessage = this.#getValidationMessage(course);
         if (!validationMessage) {         // !'' -> true 
-            return this.#courses.add(course);    // courses is an object referencing to  data provisioning (and has "add" method)
-                                                  // returns a 'course' object  
+            return await  this.#courses.add(course); // courses is an object referencing to  data provisioning (and has "add" method)
+                                                     // returns a 'course' object  
         }
-        return validationMessage;                 // returns an error message as string (!String)== false
+        return validationMessage;                     // returns an error message as string (!String)== false
     }
     #getValidationMessage(course) {
         // TODO validate course
@@ -43,14 +43,14 @@ export default class College {
          `wrong entry, course name has to  be one of: ${courses}`:'';
         return message;
     }
-    getAllCourses(){
-        return this.#courses.get();
+    async getAllCourses(){
+        return await this.#courses.get();
     }
-    sortCourses(key){
-        return _.sortBy(this.getAllCourses(), key)
+    async sortCourses(key){
+        return _.sortBy(await this.getAllCourses(), key)
     }
-    #getStatistics(interval, field){
-        const courses  = this.getAllCourses();
+    async #getStatistics(interval, field){
+        const courses  = await this.getAllCourses();
         const objStat = _.countBy(courses, e=> {return Math.floor(e[field]/interval)});
         return Object.keys(objStat).map(s=> {   // creating an array of keys (we use an Object which has keys method)
             return {minInterval: s * interval, // s is a key (string) multiplied with interval giving a number. 
@@ -64,10 +64,10 @@ export default class College {
     getCostStatistics(lengthInterval){
         return this.#getStatistics(lengthInterval, 'cost');
     }
-    removeCourse(id) {
+    async removeCourse(id) {
         if(!this.#courses.exists(id)){
             throw `course with id ${id} not found`
         }
-        return this.#courses.remove(id);
+        return await  this.#courses.remove(id);
     }
 }

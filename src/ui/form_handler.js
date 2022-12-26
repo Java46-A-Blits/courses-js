@@ -14,14 +14,14 @@ export default class FormHandler {  //handler - takes all values from the user e
         // and creating an itereable object
     }
     addHandler(fnProcessor)  {
-        this.#formElement.addEventListener('submit', event => {
+        this.#formElement.addEventListener('submit', async event => {
             event.preventDefault();
             const data = Array.from(this.#inputElements)  // creating an aray of iterables. 
                 .reduce((obj, element) => {  
                     obj[element.name] = element.value;     // value is a user entry  (job of qerySelectorAll ??)
                     return obj;
                 }, {})
-            const message = fnProcessor(data);
+            const message = await fnProcessor(data);
             if (!message) {      // !'' == true               
                 this.#formElement.reset(); // everything OK
                 this.#alertElement.innerHTML = '';
