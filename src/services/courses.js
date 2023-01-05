@@ -21,7 +21,7 @@ export default class Courses{
         this.#maxId = maxId ?? 1000000;
     }
     add(course){
-        course.id = this.#getId();
+        course.id = this.#getId(); 
         this.#courses.push(course);
         return getPromise(1000, course);
     }
@@ -35,6 +35,7 @@ export default class Courses{
     }
     exists(id){
         return !!this.#courses.find(c => c.id === id); // !! -> exists, ( returns true if expression has a value )
+        // return getPromise(100, !!this.#courses.find(c => c.id === id))  // GENERATE BUTTON  - NOT WORKING,  PAGE STUCK
     }
     get(){
         return getPromise(2000,this.#courses);

@@ -55,7 +55,7 @@ export default class College {
         return Object.keys(objStat).map(s=> {   // creating an array of keys (we use an Object which has keys method)
             return {minInterval: s * interval, // s is a key (string) multiplied with interval giving a number. 
                     maxInterval: s * interval + interval-1,
-                    amount: objStat[s]}
+                    amount: objStat[s]}  //objStat[s] key is 's' ,  so it can be repalced with 's'
         })
     }
     getHoursStatistics(lengthInterval){
@@ -65,7 +65,7 @@ export default class College {
         return this.#getStatistics(lengthInterval, 'cost');
     }
     async removeCourse(id) {
-        if(!this.#courses.exists(id)){
+        if(!await this.#courses.exists(id)){
             throw `course with id ${id} not found`
         }
         return await  this.#courses.remove(id);
